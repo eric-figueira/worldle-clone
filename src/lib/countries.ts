@@ -252,3 +252,13 @@ export const countries: Country[] = [
   { code: "ZM", latitude: -13.133897, longitude: 27.849332, name: "Zâmbia" },
   { code: "ZW", latitude: -19.015438, longitude: 29.154857, name: "Zimbábue" },
 ]
+
+export function getRandomCountry() {
+  const random = Math.floor(Math.random() * countries.length)
+
+  return  countries[random]
+}
+
+export function findCountryWithCode(code: string) {
+  return countries.find((country) => country.code === code)
+}
