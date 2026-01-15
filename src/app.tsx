@@ -1,4 +1,4 @@
-import { CountryGuess } from "./components/country-guess";
+import { CountryGuess } from "./components/countries-combobox";
 
 export function App() {
   return (
