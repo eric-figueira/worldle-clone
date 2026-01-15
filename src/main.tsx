@@ -1,9 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './app'
+import { GuessesProvider } from './hooks/useGuesses'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <GuessesProvider>
+      <App />
+    </GuessesProvider>
   </StrictMode>,
 )
