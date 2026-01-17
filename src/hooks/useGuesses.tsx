@@ -1,6 +1,9 @@
 import type { Country } from "@/domain/country";
 import type { Guess } from "@/domain/guess";
+import { bearing, bearingToCardinal } from "@/lib/compass";
 import { findCountryWithCode, getRandomCountry } from "@/lib/countries";
+import { haversine } from "@/lib/distance";
+import { percentage } from "@/lib/math";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 type GuessesProviderState = {
@@ -39,7 +42,24 @@ export function GuessesProvider({ children }: GuessesProviderProps) {
   function registerGuess(code: string) {
     const country = findCountryWithCode(code)
 
+    if (!country) {
+      throw new Error('Country not found')
+    }
 
+    const d = haversine(country, goal!)
+    const p = percentage(d)
+    const b = bearing(country, goal!)
+    const c = bearingToCardinal(b)
+
+    const guess: Guess = {
+      country,
+      distance: d,
+      percentage: p,
+      direction: c,
+    }
+
+    const newGuesses = [...guesses, guess]
+    setGuesses(newGuesses)
   }
 
   const value = {

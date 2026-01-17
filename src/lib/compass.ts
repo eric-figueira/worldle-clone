@@ -1,5 +1,6 @@
 import type { Country } from "@/domain/country";
 import { degreesToRadians, radiansToDegrees } from "./math";
+import { DIRECTIONS } from "./constants";
 
 export function bearing(start: Country, end: Country) {
   const radians = {
@@ -17,4 +18,10 @@ export function bearing(start: Country, end: Country) {
   const bearing = (radiansToDegrees(o) + 360) % 360
 
   return bearing
+}
+
+export function bearingToCardinal(bearing: number) {
+  const index = Math.round((bearing % 360) / 45)
+
+  return DIRECTIONS[index % DIRECTIONS.length]
 }
