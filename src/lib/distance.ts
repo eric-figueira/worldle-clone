@@ -18,5 +18,5 @@ export function haversine(start: Country, end: Country) {
 
   const distance = 2 * EARTH_RADIUS_IN_KM * Math.asin(Math.sqrt(d))
 
-  return distance
+  return Math.round(distance)
 }

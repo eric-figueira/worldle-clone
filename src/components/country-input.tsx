@@ -20,7 +20,7 @@ import {
 import { countries } from "@/lib/countries";
 import { useGuesses } from "@/hooks/useGuesses";
 
-export function CountryGuess({ className }: React.ComponentProps<'div'>) {
+export function CountryInput({ className }: React.ComponentProps<'div'>) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
@@ -31,7 +31,7 @@ export function CountryGuess({ className }: React.ComponentProps<'div'>) {
   }
 
   return (
-    <div className={cn("flex items-center gap-3", className)}>
+    <div className={cn("flex items-center gap-1", className)}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button

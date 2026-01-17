@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { CountryGuess } from "./components/countries-combobox";
+import { CountryInput } from "./components/country-input";
 import { CountryImage } from "./components/country-image";
 import { useGuesses } from "./hooks/useGuesses";
+import { GuessesList } from "./components/guesses-list";
 
 export function App() {
   const { restart } = useGuesses()
@@ -19,7 +20,10 @@ export function App() {
 
         <div className="space-y-10 w-full">
           <CountryImage />
-          <CountryGuess className="w-full" />
+          <div className="space-y-4">
+            <CountryInput className="w-full" />
+            <GuessesList />
+          </div>
         </div>
       </div>
     </div>

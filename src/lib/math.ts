@@ -9,5 +9,5 @@ export function radiansToDegrees(rad: number) {
 }
 
 export function percentage(distance: number) {
-  return Math.round(distance / MAX_DISTANCE_ON_EARTH_SURFACE_IN_KM) * 100
+  return 100 - Math.round(distance / MAX_DISTANCE_ON_EARTH_SURFACE_IN_KM * 100)
 }
