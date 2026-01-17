@@ -1,12 +1,7 @@
-import { findCountryWithCode, getRandomCountry, type Country } from "@/lib/countries";
+import type { Country } from "@/domain/country";
+import type { Guess } from "@/domain/guess";
+import { findCountryWithCode, getRandomCountry } from "@/lib/countries";
 import { createContext, useContext, useState, type ReactNode } from "react";
-
-export type Guess = {
-  country: Country
-  direction: string
-  distance: number
-  percentage: number
-}
 
 type GuessesProviderState = {
   guesses: Guess[],
@@ -43,6 +38,8 @@ export function GuessesProvider({ children }: GuessesProviderProps) {
 
   function registerGuess(code: string) {
     const country = findCountryWithCode(code)
+
+
   }
 
   const value = {

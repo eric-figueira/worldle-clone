@@ -1,9 +1,4 @@
-export interface Country {
-  code: string
-  name: string
-  latitude: number
-  longitude: number
-}
+import type { Country } from "@/domain/country"
 
 export const countries: Country[] = [
   { code: "AD", latitude: 42.546245, longitude: 1.601554, name: "Andorra" },

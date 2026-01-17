@@ -1,28 +1,22 @@
-import { EARTH_RADIUS_IN_KM, MAX_DISTANCE_ON_EARTH_SURFACE_IN_KM } from "./constants";
-import type { Country } from "./countries";
+import type { Country } from "@/domain/country";
+import { EARTH_RADIUS_IN_KM } from "./constants";
+import { degreesToRadians } from "./math";
 
-export function haversine(from: Country, to: Country) {
+export function haversine(start: Country, end: Country) {
   const radians = {
-    fromLatitude: degreesToRadians(from.latitude),
-    fromLongitude: degreesToRadians(from.longitude),
-    toLatitude: degreesToRadians(to.latitude),
-    toLongitude: degreesToRadians(to.longitude)
+    lat1: degreesToRadians(start.latitude),
+    lon1: degreesToRadians(start.longitude),
+    
+    lat2: degreesToRadians(end.latitude),
+    lon2: degreesToRadians(end.longitude)
   }
 
-  const a = Math.pow(Math.sin((radians.toLatitude - radians.fromLatitude) / 2), 2)
-  const b = Math.pow(Math.sin((radians.toLongitude - radians.fromLongitude) / 2), 2)
-  const c = Math.cos(radians.fromLatitude) * Math.cos(radians.toLatitude) * b 
+  const a = Math.pow(Math.sin((radians.lat2 - radians.lat1) / 2), 2)
+  const b = Math.pow(Math.sin((radians.lon2 - radians.lon1) / 2), 2)
+  const c = Math.cos(radians.lat1) * Math.cos(radians.lat2) * b 
   const d = Math.sqrt(a + c)
 
   const distance = 2 * EARTH_RADIUS_IN_KM * Math.asin(Math.sqrt(d))
 
   return distance
-}
-
-export function degreesToRadians(deg: number) {
-  return (deg * 2 * Math.PI) / 360
-}
-
-export function percentage(distance: number) {
-  return Math.round(distance / MAX_DISTANCE_ON_EARTH_SURFACE_IN_KM) * 100
 }
