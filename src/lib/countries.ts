@@ -42,7 +42,7 @@ export const countries: Country[] = [
   { code: "CF", latitude: 6.611111, longitude: 20.939444, name: "República Centro-Africana" },
   { code: "CG", latitude: -0.228021, longitude: 15.827659, name: "Congo" },
   { code: "CH", latitude: 46.818188, longitude: 8.227512, name: "Suíça" },
-  { code: "CI", latitude: 7.539989, longitude: -5.54708, name: "Côte d'Ivoire" },
+  { code: "CI", latitude: 7.539989, longitude: -5.54708, name: "Costa do Marfim" },
   { code: "CK", latitude: -21.236736, longitude: -159.777671, name: "Ilhas Cook" },
   { code: "CL", latitude: -35.675147, longitude: -71.542969, name: "Chile" },
   { code: "CM", latitude: 7.369722, longitude: 12.354722, name: "Camarões" },
@@ -251,7 +251,7 @@ export const countries: Country[] = [
 export function getRandomCountry() {
   const random = Math.floor(Math.random() * countries.length)
 
-  return  countries[random]
+  return countries[random]
 }
 
 export function findCountryWithCode(code: string) {

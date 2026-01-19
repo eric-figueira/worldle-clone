@@ -1,14 +1,23 @@
 import { useEffect } from "react";
 import { CountryInput } from "./components/country-input";
 import { CountryImage } from "./components/country-image";
-import { useGuesses } from "./hooks/useGuesses";
 import { GuessesList } from "./components/guesses-list";
+import { Button } from "./components/ui/button";
+import { useGame } from "./hooks/useGame";
+import { useGuesses } from "./hooks/useGuesses";
+import { RotateCcw } from "lucide-react";
 
 export function App() {
-  const { restart } = useGuesses()
+  const { resetGame, gameState } = useGame()
+  const { clearGuesses } = useGuesses()
+
+  function reset() {
+    resetGame()
+    clearGuesses()
+  }
 
   useEffect(() => {
-    restart()
+    reset()
   }, [])
 
   return (
@@ -23,6 +32,14 @@ export function App() {
           <div className="space-y-4">
             <CountryInput className="w-full" />
             <GuessesList />
+
+            {["victory", "defeat"].includes(gameState) && (
+              <Button onClick={reset} size={"lg"} className="w-full">
+                Jogar novamente
+
+                <RotateCcw className="size-4" />
+              </Button>
+            )}
           </div>
         </div>
       </div>

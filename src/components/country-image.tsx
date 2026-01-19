@@ -1,7 +1,7 @@
-import { useGuesses } from "@/hooks/useGuesses"
+import { useGame } from "@/hooks/useGame"
 
 export function CountryImage() {
-  const { goal } = useGuesses()
+  const { goal } = useGame()
 
   console.log(goal)
 

@@ -1,45 +1,37 @@
-import type { Country } from "@/domain/country";
 import type { Guess } from "@/domain/guess";
 import { bearing, bearingToCardinal } from "@/lib/compass";
-import { findCountryWithCode, getRandomCountry } from "@/lib/countries";
+import { findCountryWithCode } from "@/lib/countries";
 import { haversine } from "@/lib/distance";
 import { percentage } from "@/lib/math";
 import { createContext, useContext, useState, type ReactNode } from "react";
+import { useGame } from "./useGame";
 
 type GuessesProviderState = {
   guesses: Guess[],
-  restart: () => void,
+  clearGuesses: () => void,
   registerGuess: (countryCode: string) => void,
-  goal: Country | null,
 }
 
-const initialState: GuessesProviderState = {
-  guesses: [],
-  restart: () => null,
-  registerGuess: () => null,
-  goal: null,
-}
-
-export const GuessesContext = createContext<GuessesProviderState>(initialState)
+export const GuessesContext = createContext<GuessesProviderState | undefined>(undefined)
 
 interface GuessesProviderProps {
   children: ReactNode
 }
 
 export function GuessesProvider({ children }: GuessesProviderProps) {
+  const { isAllowedToGuess, goal, checkForNewGameState } = useGame()
+
   const [guesses, setGuesses] = useState<Guess[]>([])
-  const [goal, setGoal] = useState<Country | null>(null)
 
-  const guessCount = guesses.length
-
-  function restart() {
+  function clearGuesses() {
     setGuesses([])
-    setGoal(getRandomCountry())
   }
 
-  function showCountry() {}
-
   function registerGuess(code: string) {
+    if (!isAllowedToGuess) {
+      return
+    }
+
     const country = findCountryWithCode(code)
 
     if (!country) {
@@ -60,13 +52,14 @@ export function GuessesProvider({ children }: GuessesProviderProps) {
 
     const newGuesses = [...guesses, guess]
     setGuesses(newGuesses)
+
+    checkForNewGameState(guesses)
   }
 
-  const value = {
+  const value: GuessesProviderState = {
     guesses,
-    restart,
+    clearGuesses,
     registerGuess,
-    goal,
   }
 
   return (
