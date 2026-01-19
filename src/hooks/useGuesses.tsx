@@ -52,8 +52,8 @@ export function GuessesProvider({ children }: GuessesProviderProps) {
 
     const newGuesses = [...guesses, guess]
     setGuesses(newGuesses)
-
-    checkForNewGameState(guesses)
+    
+    checkForNewGameState(newGuesses)
   }
 
   const value: GuessesProviderState = {

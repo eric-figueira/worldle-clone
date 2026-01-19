@@ -19,12 +19,16 @@ import {
 } from "@/components/ui/popover"
 import { countries } from "@/lib/countries";
 import { useGuesses } from "@/hooks/useGuesses";
+import { useGame } from "@/hooks/useGame";
 
 export function CountryInput({ className }: React.ComponentProps<'div'>) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
   const { registerGuess } = useGuesses()
+  const { gameState } = useGame()
+
+  const disable = ["victory", "defeat"].includes(gameState)
 
   function handleGuess() {
     registerGuess(value)
@@ -40,6 +44,7 @@ export function CountryInput({ className }: React.ComponentProps<'div'>) {
             aria-expanded={open}
             className="flex-1 justify-between"
             size={"lg"}
+            disabled={disable}
           >
             {value
               ? countries.find((country) => country.code === value)?.name
@@ -77,7 +82,11 @@ export function CountryInput({ className }: React.ComponentProps<'div'>) {
         </PopoverContent>
       </Popover>
 
-      <Button onClick={handleGuess} size={"lg"}>
+      <Button 
+        onClick={handleGuess} 
+        size={"lg"} 
+        disabled={disable}
+      >
         Adivinhar
       </Button>
     </div>
