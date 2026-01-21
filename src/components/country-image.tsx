@@ -2,9 +2,7 @@ import { useGame } from "@/hooks/useGame"
 
 export function CountryImage() {
   const { goal } = useGame()
-
-  console.log(goal)
-
+  
   if (goal === null) {
     return <span>Carregando imagem...</span>
   }

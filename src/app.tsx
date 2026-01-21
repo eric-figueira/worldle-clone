@@ -9,7 +9,7 @@ import { RotateCcw } from "lucide-react";
 import Confetti from 'react-confetti-boom'
 
 export function App() {
-  const { resetGame, gameState } = useGame()
+  const { goal, resetGame, gameState } = useGame()
   const { clearGuesses } = useGuesses()
 
   function reset() {
@@ -30,8 +30,18 @@ export function App() {
 
         <div className="space-y-10 w-full">
           <CountryImage />
+
           <div className="space-y-4">
-            <CountryInput className="w-full" />
+            {["victory", "defeat"].includes(gameState) && (
+              <div className="bg-sky-800/40 text-sky-700 rounded-lg px-4 py-2 w-fit mx-auto">
+                País: <span className="font-medium">{goal?.name}</span>
+              </div>
+            )}
+
+            {gameState === "occuring" && (
+              <CountryInput className="w-full" />
+            )}
+
             <GuessesList />
 
             {["victory", "defeat"].includes(gameState) && (
@@ -42,7 +52,9 @@ export function App() {
                   <RotateCcw className="size-4" />
                 </Button>
 
-                <Confetti particleCount={50} />
+                {gameState === "victory" && (
+                  <Confetti particleCount={50} />
+                )}
               </>
             )}
           </div>

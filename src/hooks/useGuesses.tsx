@@ -38,6 +38,10 @@ export function GuessesProvider({ children }: GuessesProviderProps) {
       throw new Error('Country not found')
     }
 
+    if (guesses.some((guess) => guess.country === country)) {
+      return
+    }
+
     const d = haversine(country, goal!)
     const p = percentage(d)
     const b = bearing(country, goal!)
