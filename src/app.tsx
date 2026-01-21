@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { CountryInput } from "./components/country-input";
 import { CountryImage } from "./components/country-image";
 import { GuessesList } from "./components/guesses-list";
@@ -11,10 +10,6 @@ export function App() {
   const { goal, reset, gameState } = useGame()
 
   function handleRestart() { reset() }
-
-  useEffect(() => {
-    reset()
-  }, [])
 
   return (
     <div className="w-full min-h-screen bg-slate-50 p-10">
