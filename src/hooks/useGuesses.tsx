@@ -1,8 +1,5 @@
-import type { Guess } from "@/domain/guess";
-import { bearing, bearingToCardinal } from "@/lib/compass";
+import { createGuess, type Guess } from "@/domain/guess";
 import { findCountryWithCode } from "@/lib/countries";
-import { haversine } from "@/lib/distance";
-import { percentage } from "@/lib/math";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { useGame } from "./useGame";
 
@@ -27,7 +24,7 @@ export function GuessesProvider({ children }: GuessesProviderProps) {
   }, [restartCount])
 
   function registerGuess(code: string) {
-    if (!isAllowedToGuess) {
+    if (!isAllowedToGuess(guesses)) {
       return
     }
 
@@ -41,19 +38,9 @@ export function GuessesProvider({ children }: GuessesProviderProps) {
       return
     }
 
-    const d = haversine(country, goal!)
-    const p = percentage(d)
-    const b = bearing(country, goal!)
-    const c = bearingToCardinal(b)
-
-    const guess: Guess = {
-      country,
-      distance: d,
-      percentage: p,
-      direction: c,
-    }
-
-    const newGuesses = [...guesses, guess]
+    const newGuess = createGuess(country, goal!)
+    const newGuesses = [...guesses, newGuess]
+    
     setGuesses(newGuesses)
     
     checkForNewGameState(newGuesses)
