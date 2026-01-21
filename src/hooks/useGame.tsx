@@ -1,7 +1,7 @@
 import type { Country } from "@/domain/country";
 import type { Guess } from "@/domain/guess";
 import { MAX_GUESSES } from "@/lib/constants";
-import { getRandomCountry } from "@/lib/countries";
+import { getRandomCountryWithImage } from "@/lib/countries";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 export type GameState = "restart" | "occuring" | "victory" | "defeat"
@@ -42,7 +42,7 @@ export function GameProvider({ children }: GameProviderProps) {
 
   function resetGame() {
     setGameState("occuring")
-    setGoal(getRandomCountry())
+    setGoal(getRandomCountryWithImage())
   }
 
   const value: GameProviderState = {
