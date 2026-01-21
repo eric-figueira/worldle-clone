@@ -3,12 +3,11 @@ import { bearing, bearingToCardinal } from "@/lib/compass";
 import { findCountryWithCode } from "@/lib/countries";
 import { haversine } from "@/lib/distance";
 import { percentage } from "@/lib/math";
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { useGame } from "./useGame";
 
 type GuessesProviderState = {
   guesses: Guess[],
-  clearGuesses: () => void,
   registerGuess: (countryCode: string) => void,
 }
 
@@ -19,13 +18,13 @@ interface GuessesProviderProps {
 }
 
 export function GuessesProvider({ children }: GuessesProviderProps) {
-  const { isAllowedToGuess, goal, checkForNewGameState } = useGame()
+  const { isAllowedToGuess, goal, checkForNewGameState, restartCount } = useGame()
 
   const [guesses, setGuesses] = useState<Guess[]>([])
 
-  function clearGuesses() {
+  useEffect(() => {
     setGuesses([])
-  }
+  }, [restartCount])
 
   function registerGuess(code: string) {
     if (!isAllowedToGuess) {
@@ -62,7 +61,6 @@ export function GuessesProvider({ children }: GuessesProviderProps) {
 
   const value: GuessesProviderState = {
     guesses,
-    clearGuesses,
     registerGuess,
   }
 

@@ -4,18 +4,13 @@ import { CountryImage } from "./components/country-image";
 import { GuessesList } from "./components/guesses-list";
 import { Button } from "./components/ui/button";
 import { useGame } from "./hooks/useGame";
-import { useGuesses } from "./hooks/useGuesses";
 import { RotateCcw } from "lucide-react";
 import Confetti from 'react-confetti-boom'
 
 export function App() {
-  const { goal, resetGame, gameState } = useGame()
-  const { clearGuesses } = useGuesses()
+  const { goal, reset, gameState } = useGame()
 
-  function reset() {
-    resetGame()
-    clearGuesses()
-  }
+  function handleRestart() { reset() }
 
   useEffect(() => {
     reset()
@@ -46,7 +41,7 @@ export function App() {
 
             {["victory", "defeat"].includes(gameState) && (
               <>
-                <Button onClick={reset} size={"lg"} className="w-full">
+                <Button onClick={handleRestart} size={"lg"} className="w-full">
                   Jogar novamente
 
                   <RotateCcw className="size-4" />

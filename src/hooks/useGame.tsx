@@ -2,16 +2,17 @@ import type { Country } from "@/domain/country";
 import type { Guess } from "@/domain/guess";
 import { MAX_GUESSES } from "@/lib/constants";
 import { getRandomCountryWithImage } from "@/lib/countries";
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-export type GameState = "restart" | "occuring" | "victory" | "defeat"
+export type GameState = "occuring" | "victory" | "defeat"
 
 export type GameProviderState = {
   gameState: GameState,
   goal: Country | null,
   isAllowedToGuess: (guesses: Guess[]) => boolean,
   checkForNewGameState: (guesses: Guess[]) => void,
-  resetGame: () => void,
+  reset: () => void,
+  restartCount: number,
 }
 
 export const GameContext = createContext<GameProviderState | undefined>(undefined)
@@ -23,6 +24,8 @@ interface GameProviderProps {
 export function GameProvider({ children }: GameProviderProps) {
   const [gameState, setGameState] = useState<GameState>("occuring")
   const [goal, setGoal]           = useState<Country | null>(null)
+
+  const [restartCount, setRestartCount] = useState<number>(0)
 
   function checkForNewGameState(guesses: Guess[]) {
     if (guesses.length > 0 && guesses[guesses.length - 1].country === goal) {
@@ -40,17 +43,22 @@ export function GameProvider({ children }: GameProviderProps) {
     return !(guesses.length === MAX_GUESSES || ["victory", "defeat"].includes(gameState))
   }
 
-  function resetGame() {
-    setGameState("occuring")
-    setGoal(getRandomCountryWithImage())
+  function reset() {
+    setRestartCount((prev) => prev + 1)
   }
+
+  useEffect(() => {
+    setGoal(getRandomCountryWithImage())
+    setGameState("occuring")
+  }, [restartCount])
 
   const value: GameProviderState = {
     gameState,
     goal,
     isAllowedToGuess,
     checkForNewGameState,
-    resetGame,
+    reset,
+    restartCount,
   }
 
   return (
