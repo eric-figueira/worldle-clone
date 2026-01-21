@@ -498,9 +498,9 @@ export function getRandomCountryWithImage() {
     countryCodesWithImage.some((code) => code.toUpperCase() === country.code)
   )
 
-  const random = Math.floor(Math.random() * countries.length)
+  const randomIndex = Math.floor(Math.random() * countryCodesWithImage.length)
 
-  return countriesWithImage[random]
+  return countriesWithImage[randomIndex]
 }
 
 export function findCountryWithCode(code: string) {
