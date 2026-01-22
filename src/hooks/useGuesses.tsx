@@ -1,7 +1,8 @@
 import { createGuess, type Guess } from "@/domain/guess";
-import { findCountryWithCode } from "@/lib/countries";
+
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { useGame } from "./useGame";
+import { findCountryWithCode } from "@/domain/country";
 
 type GuessesProviderState = {
   guesses: Guess[],

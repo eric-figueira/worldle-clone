@@ -1,9 +1,9 @@
-import type { Country } from "@/domain/country";
+import { getRandomCountryWithImage, type Country } from "@/domain/country";
 import type { Guess } from "@/domain/guess";
 import { MAX_GUESSES, PROBABILITY_OF_PICKING_ISLANDS } from "@/lib/constants";
-import { getRandomCountryWithImage } from "@/lib/countries";
+
 import { GameState, type TGameState } from "@/lib/game-state";
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 
 export type GameProviderState = {
   gameState: TGameState,
@@ -25,6 +25,8 @@ export function GameProvider({ children }: GameProviderProps) {
   const [goal, setGoal]           = useState<Country | null>(null)
 
   const [restartCount, setRestartCount] = useState<number>(0)
+
+  const alreadyPickedCountries = useRef<Set<string>>(new Set())
 
   function checkForNewGameState(guesses: Guess[]) {
     if (guesses.length > 0 && guesses[guesses.length - 1].country === goal) {
@@ -49,18 +51,22 @@ export function GameProvider({ children }: GameProviderProps) {
     setRestartCount((prev) => prev + 1)
   }
 
-  let alreadyPickedCountries = null
-
   useEffect(() => {
-    alreadyPickedCountries = new Set<Country>()
-
     let randomCountry = getRandomCountryWithImage()
 
-    while (alreadyPickedCountries.has(randomCountry) || (randomCountry.name.includes('Ilha') && Math.random() > PROBABILITY_OF_PICKING_ISLANDS)) {
+    let attempts = 0
+    const maxAttempts = 1000 // prevents infinite loop
+
+    while (
+      (alreadyPickedCountries.current.has(randomCountry.code) || 
+       (randomCountry.name.includes('Ilha') && Math.random() > PROBABILITY_OF_PICKING_ISLANDS)) &&
+      attempts < maxAttempts
+    ) {
       randomCountry = getRandomCountryWithImage()
+      attempts++
     }
 
-    alreadyPickedCountries.add(randomCountry)
+    alreadyPickedCountries.current.add(randomCountry.code)
 
     setGoal(randomCountry)
     setGameState(GameState.occurring)

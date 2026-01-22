@@ -81,7 +81,7 @@ export function CountryInput({ className }: CountryInputProps) {
                     <Check
                       className={cn(
                         "ml-auto",
-                        value === country.name ? "opacity-100" : "opacity-0"
+                        value === country.code ? "opacity-100" : "opacity-0"
                       )}
                     />
                   </CommandItem>
