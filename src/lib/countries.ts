@@ -493,27 +493,13 @@ export const countries: Country[] = [
   { code: "ZW", latitude: -19.015438, longitude: 29.154857, name: "Zimbábue" },
 ]
 
-const alreadyPickedCountries = new Set<Country>()
-
 export function getRandomCountryWithImage() {
   const countriesWithImage = countries.filter((country) => 
     countryCodesWithImage.some((code) => code.toUpperCase() === country.code)
   )
 
-  const randomIndex   = Math.floor(Math.random() * countryCodesWithImage.length)
+  const randomIndex   = Math.floor(Math.random() * countriesWithImage.length)
   const randomCountry = countriesWithImage[randomIndex]
-
-  // choose another country if already picked
-  if (alreadyPickedCountries.has(randomCountry)) {
-    return getRandomCountryWithImage()
-  }
-
-  // make islands less likely to be chosen
-  if (randomCountry.name.includes('Ilha') && Math.random() > 0.3) {
-    return getRandomCountryWithImage()
-  }
-
-  alreadyPickedCountries.add(randomCountry)
 
   return randomCountry
 }

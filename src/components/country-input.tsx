@@ -19,8 +19,13 @@ import {
 import { countries } from "@/lib/countries";
 import { useGuesses } from "@/hooks/useGuesses";
 import { useGame } from "@/hooks/useGame";
+import { GameState } from "@/lib/game-state"
 
-export function CountryInput({ className }: React.ComponentProps<'div'>) {
+interface CountryInputProps {
+  className?: string
+}
+
+export function CountryInput({ className }: CountryInputProps) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
@@ -31,7 +36,7 @@ export function CountryInput({ className }: React.ComponentProps<'div'>) {
     setValue("")
   }, [restartCount])
 
-  const isGameOver = ["victory", "defeat"].includes(gameState)
+  const isGameOver = gameState === GameState.victory || gameState === GameState.defeat
 
   function handleGuess() {
     registerGuess(value)

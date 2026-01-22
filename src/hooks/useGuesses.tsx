@@ -34,7 +34,7 @@ export function GuessesProvider({ children }: GuessesProviderProps) {
       throw new Error('Country not found')
     }
 
-    if (guesses.some((guess) => guess.country === country)) {
+    if (guesses.some((guess) => guess.country.code === country.code)) {
       return
     }
 

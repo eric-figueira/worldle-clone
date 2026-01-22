@@ -5,6 +5,7 @@ import { Button } from "./components/ui/button";
 import { useGame } from "./hooks/useGame";
 import { RotateCcw } from "lucide-react";
 import Confetti from 'react-confetti-boom'
+import { GameState } from "./lib/game-state";
 
 export function App() {
   const { goal, reset, gameState } = useGame()
@@ -22,19 +23,19 @@ export function App() {
           <CountryImage />
 
           <div className="space-y-4">
-            {["victory", "defeat"].includes(gameState) && (
+            {(gameState === GameState.victory || gameState === GameState.defeat) && (
               <div className="bg-sky-800/40 text-sky-700 rounded-lg px-4 py-2 w-fit mx-auto">
                 País: <span className="font-medium">{goal?.name}</span>
               </div>
             )}
 
-            {gameState === "occuring" && (
+            {gameState === GameState.occurring && (
               <CountryInput className="w-full" />
             )}
 
             <GuessesList />
 
-            {["victory", "defeat"].includes(gameState) && (
+            {(gameState === GameState.victory || gameState === GameState.defeat) && (
               <>
                 <Button onClick={handleRestart} size={"lg"} className="w-full">
                   Jogar novamente
@@ -42,7 +43,7 @@ export function App() {
                   <RotateCcw className="size-4" />
                 </Button>
 
-                {gameState === "victory" && (
+                {gameState === GameState.victory && (
                   <Confetti particleCount={50} />
                 )}
               </>
