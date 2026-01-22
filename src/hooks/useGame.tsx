@@ -1,6 +1,6 @@
 import type { Country } from "@/domain/country";
 import type { Guess } from "@/domain/guess";
-import { MAX_GUESSES } from "@/lib/constants";
+import { MAX_GUESSES, PROBABILITY_OF_PICKING_ISLANDS } from "@/lib/constants";
 import { getRandomCountryWithImage } from "@/lib/countries";
 import { GameState, type TGameState } from "@/lib/game-state";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
@@ -56,7 +56,7 @@ export function GameProvider({ children }: GameProviderProps) {
 
     let randomCountry = getRandomCountryWithImage()
 
-    while (alreadyPickedCountries.has(randomCountry) || (randomCountry.name.includes('Ilha') && Math.random() > 0.3)) {
+    while (alreadyPickedCountries.has(randomCountry) || (randomCountry.name.includes('Ilha') && Math.random() > PROBABILITY_OF_PICKING_ISLANDS)) {
       randomCountry = getRandomCountryWithImage()
     }
 
