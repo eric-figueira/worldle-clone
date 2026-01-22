@@ -28,7 +28,7 @@ export function CountryImage() {
     <img 
       src={`/countries/${code}/vector.svg`} 
       alt={goal.name} 
-      className="max-w-56 mx-auto"
+      className="max-w-40 md:max-w-56 mx-auto"
       draggable={false}
       onError={(e) => {
         e.currentTarget.style.display = "none"

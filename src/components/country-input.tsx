@@ -45,17 +45,19 @@ export function CountryInput({ className }: React.ComponentProps<'div'>) {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="flex-1 justify-between"
+            className="flex-1 justify-between overflow-hidden"
             size={"lg"}
             disabled={isGameOver}
           >
-            {value
-              ? countries.find((country) => country.code === value)?.name
-              : "Selecione um país..."}
+            <span className="min-w-0 flex-1 truncate text-left">
+              {value
+                ? countries.find((country) => country.code === value)?.name
+                : "Selecione um país..."}
+            </span>
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-xs p-0" align="start">
+        <PopoverContent className="w-60 md:w-xs p-0" align="start">
           <Command>
             <CommandInput placeholder="Procure um país..." className="h-9" />
             <CommandList>
