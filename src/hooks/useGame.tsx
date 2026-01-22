@@ -56,19 +56,15 @@ export function GameProvider({ children }: GameProviderProps) {
 
     let randomCountry = getRandomCountryWithImage()
 
-    // choose another country if already picked
-    let mustPickAnother = 
-      alreadyPickedCountries.has(randomCountry) ||
-      // make islands less likely to be chosen
-      (randomCountry.name.includes('Ilha') && Math.random() > 0.3)
-    
-    while (mustPickAnother) {
+    while (alreadyPickedCountries.has(randomCountry) || (randomCountry.name.includes('Ilha') && Math.random() > 0.3)) {
       randomCountry = getRandomCountryWithImage()
     }
 
     alreadyPickedCountries.add(randomCountry)
 
+    setGoal(randomCountry)
     setGameState(GameState.occurring)
+
   }, [restartCount])
 
   const value: GameProviderState = {
